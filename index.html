@@ -2,7 +2,7 @@
 <html lang="nl">
 <head>
   <meta charset="UTF-8">
-  <title>RefConnect – Secret ........ Drop</title>
+  <title>RefConnect – Secret ......... Drop</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <!-- RefConnect-achtige fonts -->
@@ -168,7 +168,8 @@
       flex: 1;
     }
 
-    input[type="number"] {
+    input[type="number"],
+    input[type="text"] {
       width: 100%;
       padding: 8px 10px;
       border-radius: 12px;
@@ -178,7 +179,8 @@
       font-size: 0.9rem;
     }
 
-    input[type="number"]:focus {
+    input[type="number"]:focus,
+    input[type="text"]:focus {
       outline: 2px solid #facc15;
       outline-offset: 1px;
       border-color: #facc15;
@@ -195,7 +197,6 @@
     }
 
     .btn {
-      width: 100%;
       border: none;
       border-radius: 999px;
       padding: 10px 14px;
@@ -205,6 +206,10 @@
       transition: transform 0.08s ease, box-shadow 0.12s ease, background 0.15s;
       text-transform: uppercase;
       letter-spacing: 0.12em;
+    }
+
+    .btn-block {
+      width: 100%;
     }
 
     .btn-primary {
@@ -219,7 +224,6 @@
     }
 
     .btn-secondary {
-      margin-top: 10px;
       background: rgba(2, 6, 23, 0.95);
       color: #e5e7eb;
       border: 1px solid #4b5563;
@@ -231,11 +235,11 @@
 
     .section {
       display: none;
+      flex-direction: column;
     }
 
     .section.active {
       display: flex;
-      flex-direction: column;
     }
 
     .section.centered {
@@ -378,36 +382,61 @@
 
     <main class="card">
       <div class="card-inner">
-        <!-- SETUP -->
-        <section id="setup" class="section active">
+        <!-- ADMIN PANEL -->
+        <section id="adminSection" class="section">
           <div class="pill">
             <span class="pill-dot"></span>
-            Secret Tee – Coming Soon
+            Admin mode – create countdown
           </div>
 
-          <h1 class="title">RefConnect ........ Reveal</h1>
+          <h1 class="title">RefConnect Drop Timer</h1>
           <p class="subtitle">
-            Stel je countdown in en laat bezoekers wachten tot de <span>RefConnect...........</span> beelden droppen.
+            Stel hier de countdown in. Je krijgt daarna een <span>unieke link</span> die je kunt delen met iedereen.
           </p>
 
-          <form id="timerForm">
+          <form id="adminForm">
             <div class="field-group">
               <label>Tijd tot reveal</label>
               <div class="time-row">
                 <div class="time-input">
-                  <input type="number" id="minutes" min="0" placeholder="Minuten">
+                  <input type="number" id="adminMinutes" min="0" placeholder="Minuten">
                 </div>
                 <div class="time-input">
-                  <input type="number" id="seconds" min="0" placeholder="Seconden">
+                  <input type="number" id="adminSeconds" min="0" placeholder="Seconden">
                 </div>
               </div>
-              <p class="hint">Laat leeg voor standaard 10 seconden. Ideaal voor stream / beamer / Insta live.</p>
+              <p class="hint">Laat leeg voor standaard 10 seconden (handig om te testen).</p>
             </div>
 
             <div class="btn-row">
-              <button type="submit" class="btn btn-primary">Start RefConnect Timer</button>
+              <button type="submit" class="btn btn-primary btn-block">Genereer countdown-link</button>
             </div>
           </form>
+
+          <div id="adminResult" style="margin-top:14px; display:none;">
+            <div class="field-group">
+              <label>Deel deze link met je bezoekers</label>
+              <div class="time-row">
+                <div class="time-input">
+                  <input type="text" id="shareLink" readonly>
+                </div>
+                <button id="copyLinkButton" class="btn btn-secondary" type="button">Kopiëren</button>
+              </div>
+              <p class="hint" id="adminInfo">
+                Iedereen die deze link opent, ziet dezelfde countdown & reveal – zij kunnen niets aanpassen.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- GEEN ACTIEVE DROP -->
+        <section id="noDropSection" class="section centered">
+          <div class="pill">
+            <span class="pill-dot"></span>
+            No active drop
+          </div>
+          <p class="coming-text">Er is nu geen actieve RefConnect countdown.</p>
+          <p class="coming-sub">Vraag de beheerder om de juiste link met countdown (de link bevat <code>?t=...</code>).</p>
         </section>
 
         <!-- WACHTEN -->
@@ -417,84 +446,77 @@
             Countdown running
           </div>
           <p class="coming-text">Hold the whistle… de RefConnect tee wordt zo onthuld.</p>
-          <p class="coming-sub">Laat deze pagina openstaan. Zodra de timer op 0 staat verschijnt de reveal + confetti.</p>
+          <p class="coming-sub">Laat deze pagina openstaan. Zodra de timer op 0 staat verschijnen de beelden + confetti.</p>
           <div class="countdown" id="countdown">0:00</div>
-          <button id="resetFromWaiting" class="btn btn-secondary">Opnieuw instellen</button>
         </section>
 
         <!-- FOTO REVEAL -->
         <section id="imageSection" class="section centered">
-          <div class="badge-unlocked">
-            Drop Unlocked
-          </div>
-          <p class="coming-text">Daar is ’ie – de geheime RefConnect T-shirt drop.</p>
-          <p class="coming-sub">Klik op een foto om deze in een nieuw tabblad te openen.</p>
+          <div class="badge-unlocked">Drop Unlocked</div>
+          <p class="coming-text">Daar is ’ie – de geheime RefConnect ......... drop.</p>
+          <p class="coming-sub">Tik op een foto om deze in een nieuw tabblad te openen.</p>
 
           <div class="image-grid">
             <div class="image-grid-item">
-              <img class="reveal-image" id="img1" src="" alt="RefConnect T-shirt 1">
+              <img class="reveal-image" id="img1" src="" alt="RefConnect ......... 1">
             </div>
             <div class="image-grid-item">
-              <img class="reveal-image" id="img2" src="" alt="RefConnect T-shirt 2">
+              <img class="reveal-image" id="img2" src="" alt="RefConnect ......... 2">
             </div>
             <div class="image-grid-item">
-              <img class="reveal-image" id="img3" src="" alt="RefConnect T-shirt 3">
+              <img class="reveal-image" id="img3" src="" alt="RefConnect ......... 3">
             </div>
           </div>
 
           <p class="image-hint">Screenshot, deel met de crew… maar keep it RefConnect 😉</p>
-
-          <button id="resetFromImage" class="btn btn-secondary">Nieuwe countdown</button>
         </section>
       </div>
     </main>
   </div>
 
   <script>
-    const setupSection = document.getElementById("setup");
+    const adminSection = document.getElementById("adminSection");
+    const noDropSection = document.getElementById("noDropSection");
     const waitingSection = document.getElementById("waiting");
     const imageSection = document.getElementById("imageSection");
 
-    const timerForm = document.getElementById("timerForm");
-    const minutesInput = document.getElementById("minutes");
-    const secondsInput = document.getElementById("seconds");
+    const allSections = [adminSection, noDropSection, waitingSection, imageSection];
 
     const countdownEl = document.getElementById("countdown");
-    const resetFromWaiting = document.getElementById("resetFromWaiting");
-    const resetFromImage = document.getElementById("resetFromImage");
-
     const confettiContainer = document.getElementById("confetti");
-
-    // >>> HIER de bestandsnamen van je 3 foto's aanpassen als je andere namen gebruikt
-    const imageSources = ["shirt1.jpg", "shirt2.jpg", "shirt3.jpg"];
 
     const img1 = document.getElementById("img1");
     const img2 = document.getElementById("img2");
     const img3 = document.getElementById("img3");
 
+    // >>> PAS HIER DE BESTANDSNAMEN AAN ALS JE ANDERE HEBT
+    const imageSources = ["shirt1.jpg", "shirt2.jpg", "shirt3.jpg"];
+
     let countdownInterval = null;
 
-    function preloadImages() {
-      img1.src = imageSources[0];
-      img2.src = imageSources[1];
-      img3.src = imageSources[2];
-    }
-
-    function showSection(section) {
-      [setupSection, waitingSection, imageSection].forEach(s => {
+    function hideAllSections() {
+      allSections.forEach(s => {
         s.classList.remove("active");
         s.classList.remove("centered");
       });
+    }
+
+    function showSection(section, centered = false) {
+      hideAllSections();
       section.classList.add("active");
-      if (section.id !== "setup") {
-        section.classList.add("centered");
-      }
+      if (centered) section.classList.add("centered");
     }
 
     function formatTime(totalSeconds) {
       const m = Math.floor(totalSeconds / 60);
       const s = totalSeconds % 60;
       return m + ":" + String(s).padStart(2, "0");
+    }
+
+    function preloadImages() {
+      img1.src = imageSources[0];
+      img2.src = imageSources[1];
+      img3.src = imageSources[2];
     }
 
     function launchConfetti() {
@@ -519,53 +541,105 @@
       }, 6500);
     }
 
-    function startCountdown(totalSeconds) {
-      let timeLeft = totalSeconds;
-      countdownEl.textContent = formatTime(timeLeft);
+    function startCountdown(targetMs) {
+      if (countdownInterval) {
+        clearInterval(countdownInterval);
+      }
 
-      countdownInterval = setInterval(() => {
-        timeLeft--;
+      function tick() {
+        const now = Date.now();
+        let diff = Math.floor((targetMs - now) / 1000);
 
-        if (timeLeft <= 0) {
+        if (diff <= 0) {
           clearInterval(countdownInterval);
           countdownEl.textContent = "0:00";
           preloadImages();
-          showSection(imageSection);
+          showSection(imageSection, true);
           launchConfetti();
           return;
         }
 
-        countdownEl.textContent = formatTime(timeLeft);
-      }, 1000);
-    }
-
-    function resetAll() {
-      if (countdownInterval) {
-        clearInterval(countdownInterval);
-        countdownInterval = null;
+        countdownEl.textContent = formatTime(diff);
       }
-      minutesInput.value = "";
-      secondsInput.value = "";
-      showSection(setupSection);
+
+      tick();
+      countdownInterval = setInterval(tick, 1000);
     }
 
-    timerForm.addEventListener("submit", function (e) {
+    // ADMIN LOGICA
+    const adminForm = document.getElementById("adminForm");
+    const adminMinutes = document.getElementById("adminMinutes");
+    const adminSeconds = document.getElementById("adminSeconds");
+    const adminResult = document.getElementById("adminResult");
+    const shareLinkInput = document.getElementById("shareLink");
+    const copyLinkButton = document.getElementById("copyLinkButton");
+    const adminInfo = document.getElementById("adminInfo");
+
+    adminForm.addEventListener("submit", function (e) {
       e.preventDefault();
 
-      let minutes = parseInt(minutesInput.value, 10) || 0;
-      let seconds = parseInt(secondsInput.value, 10) || 0;
+      let minutes = parseInt(adminMinutes.value, 10) || 0;
+      let seconds = parseInt(adminSeconds.value, 10) || 0;
       let totalSeconds = minutes * 60 + seconds;
 
       if (totalSeconds <= 0) {
         totalSeconds = 10; // standaard 10 sec
       }
 
-      showSection(waitingSection);
-      startCountdown(totalSeconds);
+      const nowMs = Date.now();
+      const targetMs = nowMs + totalSeconds * 1000;
+      const targetEpochSeconds = Math.floor(targetMs / 1000);
+
+      const baseUrl = window.location.origin + window.location.pathname;
+      const link = baseUrl + "?t=" + targetEpochSeconds;
+
+      shareLinkInput.value = link;
+      adminResult.style.display = "block";
+      adminInfo.textContent = "Iedereen die deze link opent, ziet dezelfde countdown & reveal – zij kunnen niets aanpassen.";
     });
 
-    resetFromWaiting.addEventListener("click", resetAll);
-    resetFromImage.addEventListener("click", resetAll);
+    copyLinkButton.addEventListener("click", function () {
+      if (!shareLinkInput.value) return;
+      navigator.clipboard.writeText(shareLinkInput.value).then(() => {
+        const original = copyLinkButton.textContent;
+        copyLinkButton.textContent = "Gekopieerd!";
+        setTimeout(() => {
+          copyLinkButton.textContent = original;
+        }, 2000);
+      }).catch(() => {
+        alert("Kopiëren is niet gelukt. Kopieer de link handmatig.");
+      });
+    });
+
+    // VIEWER LOGICA
+    const params = new URLSearchParams(window.location.search);
+    const isAdmin = params.get("admin") === "1" || params.get("mode") === "admin";
+    const tParam = params.get("t");
+
+    if (isAdmin) {
+      showSection(adminSection, false);
+    } else {
+      if (!tParam) {
+        showSection(noDropSection, true);
+      } else {
+        const targetSeconds = parseInt(tParam, 10);
+        if (Number.isNaN(targetSeconds)) {
+          showSection(noDropSection, true);
+        } else {
+          const targetMs = targetSeconds * 1000;
+          const diff = Math.floor((targetMs - Date.now()) / 1000);
+
+          if (diff <= 0) {
+            preloadImages();
+            showSection(imageSection, true);
+            launchConfetti();
+          } else {
+            showSection(waitingSection, true);
+            startCountdown(targetMs);
+          }
+        }
+      }
+    }
 
     // Klik op foto = open in nieuw tabblad
     document.querySelectorAll(".reveal-image").forEach(img => {
@@ -578,4 +652,3 @@
   </script>
 </body>
 </html>
-
