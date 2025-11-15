@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>RefConnect – Secret T-Shirt Drop</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- RefConnect-achtige fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top, #111827 0, #050c18 40%, #020617 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      color: #f9fafb;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow-x: hidden;
+    }
+
+    .wrapper {
+      width: 100%;
+      max-width: 760px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* RefConnect header */
+    .brand-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+      justify-content: center;
+    }
+
+    .brand-logo {
+      width: 58px;
+      height: 58px;
+      border-radius: 16px;
+      background: #050c18;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 0 0 1px rgba(248, 250, 252, 0.05),
+                  0 10px 35px rgba(0, 0, 0, 0.7);
+    }
+
+    .brand-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .brand-title {
+      font-family: "Bebas Neue", system-ui, sans-serif;
+      letter-spacing: 0.20em;
+      font-size: 1.9rem;
+      text-transform: uppercase;
+    }
+
+    .brand-sub {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: #9ca3af;
+      margin-top: -2px;
+    }
+
+    .card {
+      background: rgba(15, 23, 42, 0.98);
+      border-radius: 22px;
+      padding: 22px 20px 18px;
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 20% 0, rgba(250, 204, 21, 0.12), transparent 55%),
+        radial-gradient(circle at 80% 100%, rgba(248, 113, 113, 0.10), transparent 55%);
+      opacity: 0.7;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .card-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(234, 179, 8, 0.7);
+      background: linear-gradient(to right, rgba(250, 204, 21, 0.10), rgba(248, 113, 113, 0.06));
+      color: #facc15;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      margin-bottom: 10px;
+    }
+
+    .pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.18);
+    }
+
+    .title {
+      font-family: "Bebas Neue", system-ui, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 1.6rem;
+      margin-bottom: 2px;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: #e5e7eb;
+      margin-bottom: 16px;
+    }
+
+    .subtitle span {
+      color: #facc15;
+      font-weight: 600;
+    }
+
+    label {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #9ca3af;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .field-group {
+      margin-bottom: 14px;
+    }
+
+    .time-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .time-input {
+      flex: 1;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid #4b5563;
+      background: rgba(2, 6, 23, 0.95);
+      color: #f9fafb;
+      font-size: 0.9rem;
+    }
+
+    input[type="number"]:focus {
+      outline: 2px solid #facc15;
+      outline-offset: 1px;
+      border-color: #facc15;
+    }
+
+    .hint {
+      font-size: 0.75rem;
+      color: #9ca3af;
+      margin-top: 4px;
+    }
+
+    .btn-row {
+      margin-top: 6px;
+    }
+
+    .btn {
+      width: 100%;
+      border: none;
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.08s ease, box-shadow 0.12s ease, background 0.15s;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .btn-primary {
+      background: linear-gradient(to right, #facc15, #f97316);
+      color: #020617;
+      box-shadow: 0 12px 32px rgba(250, 204, 21, 0.45);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 40px rgba(250, 204, 21, 0.55);
+    }
+
+    .btn-secondary {
+      margin-top: 10px;
+      background: rgba(2, 6, 23, 0.95);
+      color: #e5e7eb;
+      border: 1px solid #4b5563;
+    }
+
+    .btn-secondary:hover {
+      background: #020617;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .section.centered {
+      align-items: center;
+      text-align: center;
+    }
+
+    .countdown {
+      font-family: "Bebas Neue", system-ui, sans-serif;
+      font-size: 3rem;
+      letter-spacing: 0.18em;
+      margin-bottom: 4px;
+    }
+
+    .coming-text {
+      font-size: 0.9rem;
+      color: #e5e7eb;
+      margin-bottom: 4px;
+    }
+
+    .coming-sub {
+      font-size: 0.8rem;
+      color: #9ca3af;
+      margin-bottom: 10px;
+    }
+
+    .badge-unlocked {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      padding: 4px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(34, 197, 94, 0.8);
+      background: rgba(34, 197, 94, 0.15);
+      color: #bbf7d0;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    .image-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    .image-grid-item {
+      border-radius: 18px;
+      overflow: hidden;
+      background: radial-gradient(circle at top, #020617, #000);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      box-shadow: 0 16px 35px rgba(0, 0, 0, 0.8);
+    }
+
+    .image-grid-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+      cursor: zoom-in;
+    }
+
+    .image-hint {
+      font-size: 0.75rem;
+      color: #9ca3af;
+      margin-top: 6px;
+    }
+
+    /* CONFETTI */
+    #confetti {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 50;
+      display: none;
+    }
+
+    #confetti.active {
+      display: block;
+    }
+
+    .confetti-piece {
+      position: absolute;
+      top: -10vh;
+      width: 7px;
+      height: 14px;
+      border-radius: 2px;
+      opacity: 0;
+      animation-name: confetti-fall;
+      animation-timing-function: linear;
+      animation-iteration-count: 1;
+    }
+
+    @keyframes confetti-fall {
+      0% {
+        transform: translateY(-10vh) rotateZ(0deg) rotateX(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(110vh) rotateZ(360deg) rotateX(180deg);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .card {
+        padding: 18px 14px 16px;
+      }
+      .brand-title {
+        font-size: 1.6rem;
+      }
+      .title {
+        font-size: 1.4rem;
+      }
+      .countdown {
+        font-size: 2.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Confetti overlay -->
+  <div id="confetti"></div>
+
+  <div class="wrapper">
+    <!-- RefConnect header -->
+    <header class="brand-header">
+      <div class="brand-logo">
+        <!-- VERVANG src MET JOUW LOGO BESTAND -->
+        <img src="refconnect-logo.png" alt="RefConnect logo">
+      </div>
+      <div>
+        <div class="brand-title">REFCONNECT</div>
+        <div class="brand-sub">Premium Referee Essentials</div>
+      </div>
+    </header>
+
+    <main class="card">
+      <div class="card-inner">
+        <!-- SETUP -->
+        <section id="setup" class="section active">
+          <div class="pill">
+            <span class="pill-dot"></span>
+            Secret Tee – Coming Soon
+          </div>
+
+          <h1 class="title">RefConnect T-Shirt Reveal</h1>
+          <p class="subtitle">
+            Stel je countdown in en laat bezoekers wachten tot de <span>RefConnect T-shirt</span> beelden droppen.
+          </p>
+
+          <form id="timerForm">
+            <div class="field-group">
+              <label>Tijd tot reveal</label>
+              <div class="time-row">
+                <div class="time-input">
+                  <input type="number" id="minutes" min="0" placeholder="Minuten">
+                </div>
+                <div class="time-input">
+                  <input type="number" id="seconds" min="0" placeholder="Seconden">
+                </div>
+              </div>
+              <p class="hint">Laat leeg voor standaard 10 seconden. Ideaal voor stream / beamer / Insta live.</p>
+            </div>
+
+            <div class="btn-row">
+              <button type="submit" class="btn btn-primary">Start RefConnect Timer</button>
+            </div>
+          </form>
+        </section>
+
+        <!-- WACHTEN -->
+        <section id="waiting" class="section centered">
+          <div class="pill">
+            <span class="pill-dot"></span>
+            Countdown running
+          </div>
+          <p class="coming-text">Hold the whistle… de RefConnect tee wordt zo onthuld.</p>
+          <p class="coming-sub">Laat deze pagina openstaan. Zodra de timer op 0 staat verschijnt de reveal + confetti.</p>
+          <div class="countdown" id="countdown">0:00</div>
+          <button id="resetFromWaiting" class="btn btn-secondary">Opnieuw instellen</button>
+        </section>
+
+        <!-- FOTO REVEAL -->
+        <section id="imageSection" class="section centered">
+          <div class="badge-unlocked">
+            Drop Unlocked
+          </div>
+          <p class="coming-text">Daar is ’ie – de geheime RefConnect T-shirt drop.</p>
+          <p class="coming-sub">Klik op een foto om deze in een nieuw tabblad te openen.</p>
+
+          <div class="image-grid">
+            <div class="image-grid-item">
+              <img class="reveal-image" id="img1" src="" alt="RefConnect T-shirt 1">
+            </div>
+            <div class="image-grid-item">
+              <img class="reveal-image" id="img2" src="" alt="RefConnect T-shirt 2">
+            </div>
+            <div class="image-grid-item">
+              <img class="reveal-image" id="img3" src="" alt="RefConnect T-shirt 3">
+            </div>
+          </div>
+
+          <p class="image-hint">Screenshot, deel met de crew… maar keep it RefConnect 😉</p>
+
+          <button id="resetFromImage" class="btn btn-secondary">Nieuwe countdown</button>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    const setupSection = document.getElementById("setup");
+    const waitingSection = document.getElementById("waiting");
+    const imageSection = document.getElementById("imageSection");
+
+    const timerForm = document.getElementById("timerForm");
+    const minutesInput = document.getElementById("minutes");
+    const secondsInput = document.getElementById("seconds");
+
+    const countdownEl = document.getElementById("countdown");
+    const resetFromWaiting = document.getElementById("resetFromWaiting");
+    const resetFromImage = document.getElementById("resetFromImage");
+
+    const confettiContainer = document.getElementById("confetti");
+
+    // >>> HIER de bestandsnamen van je 3 foto's aanpassen als je andere namen gebruikt
+    const imageSources = ["shirt1.jpg", "shirt2.jpg", "shirt3.jpg"];
+
+    const img1 = document.getElementById("img1");
+    const img2 = document.getElementById("img2");
+    const img3 = document.getElementById("img3");
+
+    let countdownInterval = null;
+
+    function preloadImages() {
+      img1.src = imageSources[0];
+      img2.src = imageSources[1];
+      img3.src = imageSources[2];
+    }
+
+    function showSection(section) {
+      [setupSection, waitingSection, imageSection].forEach(s => {
+        s.classList.remove("active");
+        s.classList.remove("centered");
+      });
+      section.classList.add("active");
+      if (section.id !== "setup") {
+        section.classList.add("centered");
+      }
+    }
+
+    function formatTime(totalSeconds) {
+      const m = Math.floor(totalSeconds / 60);
+      const s = totalSeconds % 60;
+      return m + ":" + String(s).padStart(2, "0");
+    }
+
+    function launchConfetti() {
+      confettiContainer.innerHTML = "";
+      const pieces = 140;
+      for (let i = 0; i < pieces; i++) {
+        const piece = document.createElement("span");
+        piece.classList.add("confetti-piece");
+        piece.style.left = Math.random() * 100 + "vw";
+        piece.style.animationDelay = Math.random() * 2 + "s";
+        piece.style.animationDuration = 3 + Math.random() * 2 + "s";
+
+        const colors = ["#facc15", "#f97316", "#ef4444", "#ffffff"];
+        piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
+        confettiContainer.appendChild(piece);
+      }
+      confettiContainer.classList.add("active");
+      setTimeout(() => {
+        confettiContainer.classList.remove("active");
+        confettiContainer.innerHTML = "";
+      }, 6500);
+    }
+
+    function startCountdown(totalSeconds) {
+      let timeLeft = totalSeconds;
+      countdownEl.textContent = formatTime(timeLeft);
+
+      countdownInterval = setInterval(() => {
+        timeLeft--;
+
+        if (timeLeft <= 0) {
+          clearInterval(countdownInterval);
+          countdownEl.textContent = "0:00";
+          preloadImages();
+          showSection(imageSection);
+          launchConfetti();
+          return;
+        }
+
+        countdownEl.textContent = formatTime(timeLeft);
+      }, 1000);
+    }
+
+    function resetAll() {
+      if (countdownInterval) {
+        clearInterval(countdownInterval);
+        countdownInterval = null;
+      }
+      minutesInput.value = "";
+      secondsInput.value = "";
+      showSection(setupSection);
+    }
+
+    timerForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      let minutes = parseInt(minutesInput.value, 10) || 0;
+      let seconds = parseInt(secondsInput.value, 10) || 0;
+      let totalSeconds = minutes * 60 + seconds;
+
+      if (totalSeconds <= 0) {
+        totalSeconds = 10; // standaard 10 sec
+      }
+
+      showSection(waitingSection);
+      startCountdown(totalSeconds);
+    });
+
+    resetFromWaiting.addEventListener("click", resetAll);
+    resetFromImage.addEventListener("click", resetAll);
+
+    // Klik op foto = open in nieuw tabblad
+    document.querySelectorAll(".reveal-image").forEach(img => {
+      img.addEventListener("click", () => {
+        if (img.src) {
+          window.open(img.src, "_blank");
+        }
+      });
+    });
+  </script>
+</body>
+</html>
